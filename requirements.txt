@@ -5,3 +5,4 @@ assemblyai
 Flask
 SQLAlchemy
 Flask-SQLAlchemy
+google-generativeai

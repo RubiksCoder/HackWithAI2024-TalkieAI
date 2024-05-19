@@ -8,7 +8,6 @@ import assemblyai as aai
 load_dotenv()
 
 api_key = os.getenv('API_KEY')
-# Replace with your API key
 aai.settings.api_key = os.getenv('ASSEMBLY_AI_API_KEY')
 
 headers = {
