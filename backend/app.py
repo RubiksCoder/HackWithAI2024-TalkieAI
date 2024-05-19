@@ -16,18 +16,16 @@ def home():
 @app.route('/webhook', methods=['POST'])
 def webhook():
   data = request.json
-  print("HELLO HELLO HELLO HELLO HELO")
-  print(data)
-  # username = data.get('username')
-  # transcript = data.get('transcript')
-  
-  # if username and transcript:
-  #   new_transcript = Transcript(username=username, transcript=transcript)
-  #   db.session.add(new_transcript)
-  #   db.session.commit()
-  return {"message": "Transcript saved successfully"}, 200
-  # else:
-  #   return {"message": "Invalid data"}, 400
+  call_id = data.get('call_id')
+  transcript = data.get('concatenated_transcript')
+
+  if call_id and transcript:
+    new_transcript = Transcript(username="Andy", transcript=transcript)
+    db.session.add(new_transcript)
+    db.session.commit()
+    return {"message": "Transcript saved successfully"}, 200
+  else:
+    return {"message": "Invalid data"}, 400
 
 @app.route('/transcripts', methods=['GET', 'POST'])
 def transcripts():
