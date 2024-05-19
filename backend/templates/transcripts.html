@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcripts</title>
+</head>
+<body>
+    <h1>Transcripts for {{ username }}</h1>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+    
+    {% if transcripts %}
+        <ul>
+            {% for transcript in transcripts %}
+                <li>
+                    <details>
+                        <summary>Transcript {{ loop.index }}</summary>
+                        <p>{{ transcript.transcript }}</p>
+                    </details>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No transcripts found for {{ username }}</p>
+    {% endif %}
+</body>
+</html>

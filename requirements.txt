@@ -2,3 +2,6 @@ python-dotenv
 requests
 gradio
 assemblyai
+Flask
+SQLAlchemy
+Flask-SQLAlchemy
