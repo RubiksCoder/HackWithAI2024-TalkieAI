@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 import os
+import gradio as gr
 
 load_dotenv()
 
@@ -35,4 +36,30 @@ data = {
   "webhook": None
 }
 
-requests.post('https://api.bland.ai/v1/calls', json=data, headers=headers)
+# requests.post('https://api.bland.ai/v1/calls', json=data, headers=headers)
+
+
+def process_input(audio, text):
+    # This is where you would process the inputs and generate an output
+    return f"Received text: {text}, and audio file of length: {len(audio)} bytes"
+
+
+def main():
+
+  # Define the interface
+  iface = gr.Interface(
+      process_input,
+      inputs=[
+          gr.Audio(type="filepath", label="Speak here"),
+          gr.Textbox(lines=2, placeholder="Type here...", label="Type here")
+      ],
+      outputs="text",
+      title="Speech and Text Input Demo",
+      description="A simple demo app to take speech and text input and provide an output."
+  )
+
+  # Launch the interface
+  iface.launch()
+
+if __name__ == "__main__":
+  main()  
