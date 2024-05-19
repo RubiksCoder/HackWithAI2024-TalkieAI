@@ -102,8 +102,8 @@ def main():
           gr.Textbox(lines=2, placeholder="Type here...", label="Prompt here")
       ],
       outputs="text",
-      title="Speech and Text Input Demo",
-      description="A simple demo app to take speech and text input and provide an output."
+      title="Talkie.ai",
+      description="Talkie.ai, your personal assistant handles calls and conversations for you, saving time and eliminating wait times. From booking to inquiries, Talkie.ai ensures seamless, efficient communication."
   )
   iface.launch()
 
