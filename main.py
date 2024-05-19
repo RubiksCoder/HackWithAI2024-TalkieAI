@@ -68,7 +68,7 @@ def generate_output(message, name):
     You are Joe. You are a personal assistant for {name}. 
   """
   before = f"""
-
+    Please create a prompt for an AI calling assistant made with bland Ai. This calling assistant takes in requests to call places to book appointments or inquire about information or whatever the user asks it to do. Here is the prompt from the user, please generate a prompt for the assistant (tell them what they should be doing):
   """
   response = chat_session.send_message(before + message)
   print(default + response.text)
@@ -85,7 +85,7 @@ def process_input(name, phone_number, audio, text):
     else:
       print(transcript.text)
       # This is where you would process the inputs and generate an output
-    msg = generate_output(transcript.text + f"name is: {name} and phone number to call: {phone_number}", name)
+    msg = generate_output(transcript.text, name)
     data["phone_number"] = phone_number
     data["task"] = msg
     requests.post('https://api.bland.ai/v1/calls', json=data, headers=headers)
