@@ -3,13 +3,13 @@ from dotenv import load_dotenv
 import os
 import gradio as gr
 import assemblyai as aai
-import os
 import google.generativeai as genai
 
 load_dotenv()
 
 api_key = os.getenv('API_KEY')
 aai.settings.api_key = os.getenv('ASSEMBLY_AI_API_KEY')
+assembly_api_key = os.getenv('GOOGLE_API_KEY')
 
 headers = {
    'Authorization': f'sk-{api_key}'
@@ -40,8 +40,6 @@ data = {
   "webhook": None
 }
 
-# CONFIGURE AI:
-assembly_api_key = os.getenv('GOOGLE_API_KEY')
 genai.configure(api_key=assembly_api_key)
 
 generation_config = {
@@ -63,19 +61,17 @@ chat_session = model.start_chat(
 )
 
 def generate_output(message, name):
-  print(message)
-  default = f"""
-    You are Joe. You are a personal assistant for {name}. 
-  """
-  before = f"""
-    Please create a prompt for an AI calling assistant made with bland Ai. This calling assistant takes in requests to call places to book appointments or inquire about information or whatever the user asks it to do. Here is the prompt from the user, please generate a prompt for the assistant (tell them what they should be doing):
-  """
+  # print(message)
+  default = f"You are Joe. You are a personal assistant for {name}."
+  before = """Please create a prompt for an AI calling assistant made with bland Ai. This 
+              calling assistant takes in requests to call places to book appointments or inquire
+              about information or whatever the user asks it to do. Here is the prompt from the 
+              user, please generate a prompt for the assistant (tell them what they should be doing):"""
   response = chat_session.send_message(before + message)
-  print(default + response.text)
+  # print(default + response.text)
   return default + response.text
 
 def process_input(name, phone_number, audio, text):
-  # IF WE HAVE AUDIO:
   if audio is not None:
     transcriber = aai.Transcriber()
     transcript = transcriber.transcribe(audio)
@@ -84,13 +80,12 @@ def process_input(name, phone_number, audio, text):
       print(transcript.error)
     else:
       print(transcript.text)
-      # This is where you would process the inputs and generate an output
+
     msg = generate_output(transcript.text, name)
     data["phone_number"] = phone_number
     data["task"] = msg
     requests.post('https://api.bland.ai/v1/calls', json=data, headers=headers)
   
-  # IF THERE IS NO AUDIO:
   else:
     msg = generate_output(text + f"name is: {name} and phone number to call: {phone_number}", name)
     data["phone_number"] = phone_number
@@ -98,7 +93,6 @@ def process_input(name, phone_number, audio, text):
     requests.post('https://api.bland.ai/v1/calls', json=data, headers=headers)
 
 def main():
-  # Define the interface
   iface = gr.Interface(
       process_input,
       inputs=[
@@ -111,8 +105,6 @@ def main():
       title="Speech and Text Input Demo",
       description="A simple demo app to take speech and text input and provide an output."
   )
-
-  # Launch the interface
   iface.launch()
 
 if __name__ == "__main__":
