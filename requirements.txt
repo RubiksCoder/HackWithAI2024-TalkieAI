@@ -2,3 +2,4 @@ python-dotenv
 requests
 gradio
 assemblyai
+google-generativeai
